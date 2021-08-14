@@ -1,16 +1,21 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import 'element-plus/packages/theme-chalk/src/base.scss'
+
 import {
     ElTabs,
     ElTabPane,
     ElInput,
     ElButton,
-    ElIcon
+    ElIcon,
+    ElSelect,
+    ElOption,
+    ElDialog,
 } from 'element-plus';
 
 import {
-    DocumentCopy, VideoPlay
+    ArrowRightBold,
+    DocumentCopy, Setting, VideoPlay
 } from '@element-plus/icons'
 
 const components = [
@@ -18,12 +23,17 @@ const components = [
     ElTabPane,
     ElInput,
     ElButton,
-    ElIcon
+    ElIcon,
+    ElSelect,
+    ElOption,
+    ElDialog
 ]
 
 const icons = [
     DocumentCopy,
-    VideoPlay
+    VideoPlay,
+    ArrowRightBold,
+    Setting
 ]
 
 const app = createApp(App)
@@ -36,3 +46,4 @@ icons.forEach(icon => {
 })
 
 app.mount('#app')
+
