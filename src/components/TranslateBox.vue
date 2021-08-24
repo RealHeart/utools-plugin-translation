@@ -13,20 +13,6 @@
       style="margin-top: 15px"
     />
     <div class="upt-button upt-button-left">
-      <el-button type="primary" size="small" round disabled>
-        <el-icon>
-          <document-copy />
-        </el-icon>
-        <span> 复制 </span>
-      </el-button>
-
-      <el-button type="primary" size="small" round disabled>
-        <el-icon>
-          <video-play />
-        </el-icon>
-        <span> 原文 </span>
-      </el-button>
-
       <el-button type="primary" size="small" round @click="settingsClick">
         <el-icon>
           <setting />
@@ -40,11 +26,11 @@
         class="upt-select"
         size="small"
         v-model="data.srcSelect"
-        disabled
+        @change="onSrcSelect"
       >
         <el-option
           v-for="item in data.options"
-          :key="item.baidu"
+          :key="item.name"
           :label="item.name"
           :value="item.name"
         >
@@ -59,11 +45,11 @@
         class="upt-select"
         size="small"
         v-model="data.toSelect"
-        disabled
+        @change="onToSelect"
       >
         <el-option
           v-for="item in data.options"
-          :key="item.baidu"
+          :key="item.name"
           :label="item.name"
           :value="item.name"
         >
@@ -114,13 +100,44 @@ export default defineComponent({
       clearTimeout(data.timeout);
       data.timeout = setTimeout(async () => {
         data.to = "正在翻译...";
+        console.log(data.srcSelect);
+        console.log(data.toSelect);
+        let srcSelect = lang.chinese;
+        let toSelect = lang.english;
+        switch (data.srcSelect) {
+          case "中文":
+            srcSelect = lang.chinese;
+            break;
+          case "英语":
+            srcSelect = lang.english;
+            break;
+          case "日语":
+            srcSelect = lang.japanese;
+            break;
+        }
+
+        switch (data.toSelect) {
+          case "中文":
+            toSelect = lang.chinese;
+            break;
+          case "英语":
+            toSelect = lang.english;
+            break;
+          case "日语":
+            toSelect = lang.japanese;
+            break;
+        }
         console.log(value);
         console.log(props.platform);
-        const result = await baidu(value, lang.chinese, lang.english);
+        const result = await baidu(value, srcSelect, toSelect);
         console.log(result);
         data.to = result.dst;
       }, 1000);
     };
+
+    const onSrcSelect = () => onChange("", false);
+
+    const onToSelect = () => onChange("", false);
 
     const setting = ref();
 
@@ -132,6 +149,8 @@ export default defineComponent({
       data,
       onChange,
       settingsClick,
+      onSrcSelect,
+      onToSelect,
       setting,
     };
   },
